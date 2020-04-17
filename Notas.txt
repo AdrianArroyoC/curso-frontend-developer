@@ -1,0 +1,169 @@
+1. INTRODUCCIÓN
+
+Internet -> Interconnected y Network principio de los 80s
+    WWW (World Wide Web) en 1990 por Tim Berners-Lee
+        W3C es un consorcio para estandarizar el futuro de Internet
+            HTTP (Hyper Text Transfer Protocol)
+            URL (Uniform Resource Locator)
+            HTML (Hyper Text Markup Language)
+                Lenguaje para estructurar los sitios web
+            CSS (Cascade Style Sheet) 1994
+                Lenguaje para darle diseño a los sitios web
+            *Ninguno es de programación
+
+Proceso de rendirzado de la web
+    1. DOM: Document Object Model. Es la transformación de las etiquetas en objetos entendibles para el navegador y que este los muestre.
+        Bytes -> Caracteres (Meta Charset) -> Tokens (Etiquetas organizadas) -> Nodes (Objetos) -> DOM (Objetos en el árbol)
+    2. CSSOM: es el DOM de HTML para CSS.
+        Usa el mismo proceso pero hasta la generación de Nodos
+    3. Render Tree: DOM + CSSOM
+        Los Nodos del CSSOM se los pega a los del DOM cuando ya está en árbol
+    4. Ejecuta el diseño en el Render Tree
+    5. Pinta el diseño en pantalla
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+2. CONCEPTOS DE HTML
+
+Anatomía de un Elemento HTML: <EtiquetaApertura Atributo="Valor> Contenido o No </EtiquetaCierre>
+    No todos los elementos se cierran pero por buena práctica se debería (en React si es obligatorio)
+    Atributos:
+        class para CSS
+        src para URL
+        alt para Alternativas de otros atributos (ej: si no sirve src, alt tendrá un texto de lo que se quería mostrar)
+    El anidamiento de etiquetas se da por jerarquías y por estructura (que el desarrollador quiera)
+    Utiliza el HTML Reference para ver como se componen y usan todas las etiquetas
+
+Anatomía de un Documento HTML: clase1.html
+
+La importancia del código semántico es darle su uso específico a cada elemento HTML
+    (ej: no usar la etiqueta div para escribir texto, utilizar la etiqueta p)
+    Con esto le das sentido y estructura
+    Diferencia entre etiqueta em e i
+        em para énfasis
+        i para poner itálica
+    También es para personas con discapacidad visual porque leen con screen readers y así entiendan
+
+HTML es interpretado y cuando el navegador los lea si tiene errores es permisivo, dos tipos de errores
+    sintáctico: de escritura
+    lógico: no hace lo que debería
+    Para debugging podemos usar validator.w3.org
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+3. CONCEPTOS DE CSS
+
+Anatomía de una declaración CSS: selector: { propiedad1: valor1; propiedad2: valor2 }
+
+Selectores
+    *: Las propiedades se aplicaran a todos los elementos del HTML
+    Tipo: Todos los elementos HTML de ese tipo y no son tan buenos de utilizar
+    .Clase: Para los elementos HTML que tienen atributo class y que el valor corresponde al selector
+    #Id: Para los elementos HTML que tienen atributo id y que el valor corresponde al selector
+        No es tan recomendable con estos por que el Id es para la especificidad
+Pseudo-clases
+    selector: pseudo-clase { propiedadN: valorN }
+        first-child
+        last-child
+        nth-child(n+2)
+Pseudo-elementos
+    selector::pseudo-elemento { propiedadN: valorN }
+        before
+        after
+        need-more
+
+Modelos de caja
+    margin -----
+        border ______ También afecta el tamaño del modelo de caja a menos que utilicemos box-sizing: border-box
+            padding _ _ _ Siempre afecta el tamaño del modelo de caja
+                contenido
+    Por defecto todas las páginas tienen margin y una buena práctica es quitarlo desde body
+
+Unidades de medida absolutas: cm, in, mm, y px (no se fijan en la medida de otros elementos solo en su valor)
+Unidades de medida relativas: %, em, vh, vw, y vmx (utilizan otros elementos para dar su valor)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+4. ARQUITECTURA CSS
+
+Objetivos de una Arquitectura:
+    Hacer predecibles y entendibles las reglas establecidas
+    Que el código sea reutilizable
+    Que sea fácil de mantener el código y evitar muchas líneas de código
+    Que los archivos sean escalables y no afectar el rendimiento
+
+Los Objetivos se ven reflejados en Buenas Prácticas:
+    Establecer reglas para todo un equipo
+    Explicar la estructura base a nuevos integrantes
+    Establecer estándares de codificación en un documento/comentarios
+    Evitar hojas de estilo largas
+    Documentación concisa al inicio o por reglas (si son complicadas)
+
+Metodologías:
+    OOCSS (Object Oriented CSS): Separa diseño de contenido
+    BEM (Block Element Modifier): Separa en los 3 componentes de su nombre
+    SMACSS (Scalable Modular Architecture CSS): Se divide en 5 el CSS
+        1 Componentes base (elementos de toda la aplicación como botones)
+        2 Layout (elementos que solo se usan una vez como header y footer)
+        3 Modulo (componentes que se usan más de una vez)
+        4 Estados (un botón que es verde y cuando le da click cambia de color)
+        5 Temas (no todas las apps tienen temas pero si cambian se hagan, como modo oscuro)
+    ITCSS (Inverted Triangle CSS): Dividir los archivos de CSS
+        Ajustes
+        Herramientas
+        Genérico
+        Elementos
+        Objetos
+        Componentes
+        Utilidades
+        *Evita la especificidad forzada, da claridad y va en pro de la magnitud
+    Atomic Design:
+        Átomos (botones)
+        Moléculas (una sección)
+        Organismos (varias secciones similares)
+        Templates
+        Páginas
+
+La especificidad es el peso o jerarquía de algunos elementos (no es buena práctica usar important)
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+5. CONSTRUCCIÓN DE COMPONENTES
+
+Un componen es un elemento muy pequeño que se pueden utilizar para construir algo más grande
+
+Storybooks son Documentación que genera un paquete de npm llamado igual, es para React
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+6. MAQUETACIÓN Y DISEÑO RESPONSIVO
+
+La alineación es la parte más difícil y más si son muchos elementos, para eso usamos flexbox:
+Container con display: flex con flex-direction o/y justify-content y align-items.
+Dentro del Container los Items usan la propiedad flex: con flex-grow, flex-shrink y flex-basis
+
+Otro método para alinear más nuevo es CSS Grid (recomendado para layout):
+Container con display: grid o inline-grid y grid-template-columns y grid-template-rows
+Items con grid-column-start grid-column-end (grid-column: /) grid-row-start grid-row-end (grid-row: /)
+
+Media Queries: para hacer responsive a diferentes dispositivos
+@media only screen and (max-width: 600px) { clases {} }
+
+Recomendable seguir la metodología Mobile First
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+7. PREPROCESADORES
+
+Son CSS con variables, herencia, anidamiento, etc., eExisten varios como LESS, STYLUS y SASS este ultimo es de los mas sencillos:
+    $variable
+    clases reutilizable con .claseContenedor { @extend .clase }
+    importar clases con @include clase donde @mixin clase { propiedadN: valorN }
+
+-----------------------------------------------------------------------------------------------------------------------------------------
+
+8. ACCESIBILIDAD
+
+ANDI (Accesible Name & Description) es la herramienta para visualizar que tan accesible es un sitio, algunas cosas a considerar son:
+    Agregar: tabindex="0" para el orden en que va a leer el usuario
+    Agregar: aria-label="Nombre del campo" para inputs que no tengan label y así se pueda leer
